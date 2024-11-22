@@ -13,11 +13,15 @@ public class TCPServer extends Thread {
     ServerSocket serverSocket;
     public static Map<String, ConnectionManagerThread> activeClients = new HashMap<String, ConnectionManagerThread>();
 
-    public TCPServer(ServerSocket serverSocket) {
-        this.serverSocket = serverSocket;
+    public TCPServer(int port) throws IOException {
+        System.out.println("Starting server...");
+        this.serverSocket = new ServerSocket(port);
+        System.out.println("Server started!");
+        runServer();
     }
 
     public void runServer() {
+        System.out.println("Waiting for connections...");
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
@@ -25,6 +29,10 @@ public class TCPServer extends Thread {
                 synchronized (this) {
                     activeClients.put(newClient.getUsername(), newClient);
                 }
+                System.out.println("New client connected! Username: "
+                        + newClient.getUsername()
+                        + ":" + newClient.getInetAddress()
+                );
                 newClient.start();
                 newClient.listenForMessages();
             } catch (IOException e) {
@@ -34,9 +42,7 @@ public class TCPServer extends Thread {
     }
 
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(10003);
-        TCPServer server = new TCPServer(serverSocket);
-        server.runServer();
+        TCPServer server = new TCPServer(10003);
     }
 }
 

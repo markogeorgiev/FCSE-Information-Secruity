@@ -63,6 +63,10 @@ public class TCPClient extends Thread{
         return username;
     }
 
+    public String getInetAddress(){
+        return socket.getInetAddress().toString();
+    }
+
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Please enter your username: ");
