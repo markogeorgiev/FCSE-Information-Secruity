@@ -1,19 +1,16 @@
-package L1;
+package Frame_Encryption;
 
 import javax.crypto.spec.IvParameterSpec;
 import java.util.Arrays;
 
-
 public class Main {
-
-
     public static void main(String[] args) throws Exception {
         String frameHeader = "FRAME_HEADER";
         String message = "My secrete message. Please don't steal it!";
         int packetNumber = 4;
 
         ClearTextFrame clearTextFrame = new ClearTextFrame(frameHeader, message, packetNumber);
-        System.out.println("Start Frame Clear Text: " +clearTextFrame);
+        System.out.println("Start Frame Clear Text: " + clearTextFrame);
 
         // Generate MIC, Initial Vectors & Key
         Encryptor encryptor = new Encryptor(clearTextFrame);
@@ -29,7 +26,7 @@ public class Main {
                 Utilities.getMic(decryptedFrame.getFrameHeader().getBytes(),
                         decryptedFrame.getData().getBytes(),
                         encryptor.getKey(),
-                        new IvParameterSpec(encryptor.getMicInitialVector())))){
+                        new IvParameterSpec(encryptor.getMicInitialVector())))) {
             System.out.println("The MICs Match CONGRATULATIONS!!!");
         } else {
             System.out.println("Pain");

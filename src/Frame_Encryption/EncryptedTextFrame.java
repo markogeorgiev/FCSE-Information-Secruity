@@ -1,4 +1,4 @@
-package L1;
+package Frame_Encryption;
 
 public class EncryptedTextFrame {
     byte[] encryptedMessage;
